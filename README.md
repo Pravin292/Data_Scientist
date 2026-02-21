@@ -171,7 +171,7 @@ Project:
 - Distance metrics comparison  
 
 Project:  
-[Hierarchical_Clustering](https://github.com/Pravin292/Hierarchical_Clustering)
+[Hierarchical_Clustering](./Hierarchical_Clustering)
 
 ---
 
