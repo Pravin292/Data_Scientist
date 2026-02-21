@@ -70,7 +70,7 @@ Project:
 - Performance evaluation  
 
 Project:  
-[Energy_Efficiency_Model](https://github.com/Pravin292/Energy_Efficiency_Model)
+[Energy_Efficiency_Model](./Energy_Efficiency_Model)
 
 ---
 
@@ -80,7 +80,7 @@ Project:
 - Performance tuning  
 
 Project:  
-[Wine_Quality_Predictor](https://github.com/Pravin292/Wine_Quality_Predictor)
+[Wine_Quality_Predictor](./Wine_Quality_Predictor)
 
 ---
 
@@ -90,7 +90,7 @@ Project:
 - Classification-based quality grading  
 
 Project:  
-[Milk_Quality_Predictor](https://github.com/Pravin292/Milk_Quality_Predictor)
+[Milk_Quality_Predictor](./Milk_Quality_Predictor)
 
 ---
 
@@ -115,7 +115,7 @@ Projects:
 - Digit classification  
 
 Project:  
-[SVM_Digit_Predictor](https://github.com/Pravin292/SVM_Digit_Predictor)
+[SVM_Digit_Predictor](./SVM_Digit_Predictor)
 
 ---
 
@@ -124,9 +124,9 @@ Project:
 - Model interpretation  
 
 Projects:  
-[Mushroom_Classifier](https://github.com/Pravin292/Mushroom_Classifier)  
-[Heart_Disease_DesicionTree](https://github.com/Pravin292/Heart_Disease_DesicionTree)  
-[Breast_Cancer_Identifier](https://github.com/Pravin292/Breast_Cancer_Identifier)
+[Mushroom_Classifier](./Mushroom_Classifier)  
+[Heart_Disease_DesicionTree](./Heart_Disease_DesicionTree)  
+[Breast_Cancer_Identifier](./Breast_Cancer_Identifier)
 
 ---
 
@@ -136,9 +136,9 @@ Projects:
 - Advanced evaluation  
 
 Projects:  
-[Diabetes-Predictor](https://github.com/Pravin292/Diabetes-Predictor)  
-[diabetes-gradient-boosting-streamlit](https://github.com/Pravin292/diabetes-gradient-boosting-streamlit)  
-[XGBOOSTING](https://github.com/Pravin292/XGBOOSTING)
+[Diabetes-Predictor](./Diabetes-Predictor)  
+[diabetes-gradient-boosting-streamlit](./diabetes-gradient-boosting-streamlit)  
+[XGBOOSTING](./XGBOOSTING)
 
 ---
 
