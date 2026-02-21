@@ -73,3 +73,11 @@ The script will actively generate datasets and populate the `output/` directory 
 
 ---
 © Pravin | Machine Learning Engineer
+
+## 🔗 Direct File Access
+
+- **Notebook**: [hierarchical_clustering.ipynb](./notebooks/hierarchical_clustering.ipynb)
+- **Python Script**: [clustering_model.py](./src/clustering_model.py)
+- **Dataset**: [customer_data.csv](./dataset/customer_data.csv)
+- **Requirements**: [requirements.txt](./requirements.txt)
+- **README**: [README.md](./README.md)
