@@ -7,10 +7,17 @@ from sklearn.cluster import AgglomerativeClustering
 from sklearn.datasets import make_blobs
 import scipy.cluster.hierarchy as sch
 import os
+import pathlib
+
+# Get the absolute path of the script location
+SCRIPT_DIR = pathlib.Path(__file__).parent.absolute()
+PROJECT_DIR = SCRIPT_DIR.parent
+DATASET_DIR = PROJECT_DIR / 'dataset'
+OUTPUT_DIR = PROJECT_DIR / 'output'
 
 # Create directories
-os.makedirs('../dataset', exist_ok=True)
-os.makedirs('../output', exist_ok=True)
+os.makedirs(DATASET_DIR, exist_ok=True)
+os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 def generate_synthetic_data():
     """Generates a synthetic customer dataset for clustering."""
@@ -25,7 +32,7 @@ def generate_synthetic_data():
     X[12, 1] = np.nan
     
     df = pd.DataFrame(X, columns=['Annual_Income', 'Spending_Score'])
-    df.to_csv('../dataset/customer_data.csv', index=False)
+    df.to_csv(DATASET_DIR / 'customer_data.csv', index=False)
     return df
 
 def preprocess_data(df):
@@ -49,7 +56,7 @@ def plot_dendrogram(X, method='ward', metric='euclidean', title='Dendrogram'):
     
     sch.dendrogram(sch.linkage(X, method=method, metric=metric))
     plt.axhline(y=10, color='r', linestyle='--')
-    plt.savefig(f'../output/dendrogram_{method}.png')
+    plt.savefig(OUTPUT_DIR / f'dendrogram_{method}.png')
     plt.close()
 
 def execute_clustering(X, n_clusters, linkage='ward', metric='euclidean'):
@@ -67,9 +74,8 @@ def plot_clusters(df, y_hc, filename):
     plt.xlabel("Annual Income (k$)")
     plt.ylabel("Spending Score (1-100)")
     plt.legend(title="Cluster")
-    plt.savefig(f'../output/{filename}')
+    plt.savefig(OUTPUT_DIR / filename)
     plt.close()
-
 
 if __name__ == "__main__":
     # 1. Generate & Load Data
@@ -80,7 +86,7 @@ if __name__ == "__main__":
     
     # 3. Exploratory Visualization: Dendrograms
     plot_dendrogram(scaled_data, method='ward', metric='euclidean', title='Ward Linkage (Euclidean)')
-    plot_dendrogram(scaled_data, method='average', metric='cityblock', title='Average Linkage (Manhattan)')
+    plot_dendrogram(scaled_data, method='average', metric='euclidean', title='Average Linkage (Euclidean)')
     plot_dendrogram(scaled_data, method='single', metric='euclidean', title='Single Linkage (Euclidean)')
     
     # 4. Clustering (K=4, Ward)
