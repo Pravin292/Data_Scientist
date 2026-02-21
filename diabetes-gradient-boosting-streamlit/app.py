@@ -9,11 +9,86 @@ st.set_page_config(
     layout="centered"
 )
 
-st.title("🩺 Diabetes Prediction App")
-st.write(
-    "This app predicts the **diabetes outcome value** using a "
-    "**Gradient Boosting Regression model**."
-)
+# ---------------- Custom Styling "Midnight Glass" ----------------
+st.markdown("""
+<style>
+/* General Body */
+.stApp {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: #e2e8f0;
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* Headers */
+h1, h2, h3 {
+    color: #38bdf8 !important;
+    font-weight: 700;
+}
+
+/* Glassmorphism Containers */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
+}
+
+/* Input boxes & Dropdowns */
+.stNumberInput input, .stSelectbox select, .stTextInput input {
+    background-color: rgba(15, 23, 42, 0.6) !important;
+    color: #f8fafc !important;
+    border: 1px solid rgba(56, 189, 248, 0.3) !important;
+    border-radius: 8px !important;
+}
+
+.stNumberInput input:focus, .stSelectbox select:focus {
+    border: 1px solid #38bdf8 !important;
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.5) !important;
+}
+
+/* Submit Buttons */
+.stFormSubmitButton button {
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+    padding: 0.6em 1.5em;
+    border: none;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.stFormSubmitButton button:hover {
+    background: linear-gradient(90deg, #60a5fa, #a78bfa);
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.6);
+    transform: translateY(-2px);
+}
+
+/* Output Cards */
+.result-card {
+    background: rgba(56, 189, 248, 0.15);
+    border-left: 5px solid #38bdf8;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.metric-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #f8fafc;
+}
+</style>
+""", unsafe_allow_html=True)
+
+st.markdown("<h1>🩺 Gradient Boosting Diagnostics</h1>", unsafe_allow_html=True)
+st.markdown("<p style='font-size: 18px; color: #94a3b8;'>Quantitative Diabetes Outcomes Evaluator</p>", unsafe_allow_html=True)
+st.markdown("---")
 
 # ---------------- Load Model ----------------
 @st.cache_resource
@@ -25,24 +100,35 @@ def load_model():
 model, feature_columns = load_model()
 
 # ---------------- User Input ----------------
-st.subheader("🔢 Enter Patient Data")
-
 input_data = {}
 
-for feature in feature_columns:
-    input_data[feature] = st.number_input(
-        f"{feature}",
-        value=0.0
-    )
+with st.form("diabetes_gb_form"):
+    st.markdown('<div class="glass-panel">', unsafe_allow_html=True)
+    st.markdown("### 🔢 Patient Clinical Matrix", unsafe_allow_html=True)
+    
+    # Generate dynamic columns
+    columns = st.columns(2)
+    
+    for i, feature in enumerate(feature_columns):
+        col = columns[i % 2]
+        input_data[feature] = col.number_input(f"{feature.replace('_', ' ').title()}", value=0.0)
+
+    submitted = st.form_submit_button("Analyze Clinical Target")
+    st.markdown('</div>', unsafe_allow_html=True)
 
 # Convert input to DataFrame
 input_df = pd.DataFrame([input_data])
 
 # ---------------- Prediction ----------------
-if st.button("🔍 Predict"):
+if submitted:
     prediction = model.predict(input_df)[0]
-    st.success(f"📊 Predicted Outcome Value: **{prediction:.2f}**")
+    st.markdown(f"""
+        <div class="result-card">
+            <div class="metric-text">📉 Predicted Target Value: {prediction:.2f}</div>
+            <p style="color: #cbd5e1; margin-top: 5px;">Gradient Boosting Regressor output mapped successfully.</p>
+        </div>
+    """, unsafe_allow_html=True)
 
 # ---------------- Footer ----------------
 st.markdown("---")
-st.caption("Model: Gradient Boosting Regressor | Built with Streamlit")
+st.caption("Architecture: SKLearn Gradient Boosting Ensemble | Analytics Engine")

@@ -9,8 +9,60 @@ from sklearn.preprocessing import StandardScaler
 # ---------------- Page config ----------------
 st.set_page_config(page_title="Digit Recognizer", layout="centered")
 
-st.title("✍️ Handwritten Digit Recognition")
-st.write("Upload an image of a digit (0–9)")
+# ---------------- Custom Styling "Midnight Glass" ----------------
+st.markdown("""
+<style>
+/* General Body */
+.stApp {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: #e2e8f0;
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* Headers */
+h1, h2, h3 {
+    color: #38bdf8 !important;
+    font-weight: 700;
+}
+
+/* Glassmorphism Containers */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
+}
+
+/* Sidebar Customization */
+[data-testid="stSidebar"] {
+    background-color: #0f172a !important;
+    border-right: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+/* Output Cards */
+.result-card-success {
+    background: rgba(16, 185, 129, 0.15);
+    border-left: 5px solid #10b981;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.metric-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #f8fafc;
+}
+</style>
+""", unsafe_allow_html=True)
+
+st.markdown("<h1>✍️ Advanced Optical Digit Recognizer</h1>", unsafe_allow_html=True)
+st.markdown("<p style='font-size: 18px; color: #94a3b8;'>Computer Vision Support Vector Machine (SVM) Classification Kernel</p>", unsafe_allow_html=True)
+st.markdown("---")
 
 # ---------------- Load dataset ----------------
 digits = load_digits()
@@ -27,28 +79,21 @@ X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
 
 # ---------------- Sidebar: Model choice ----------------
-st.sidebar.header("Model Selection")
+st.sidebar.markdown("### ⚙️ Kernel Engineering Parameters")
 
 model_type = st.sidebar.radio(
-    "Choose Non-Linear Model",
+    "Select Non-Linear Transformation Function:",
     ["RBF SVM", "Polynomial SVM"]
 )
 
+st.sidebar.markdown("---")
+st.sidebar.caption("The RBF (Radial Basis Function) generally demonstrates extreme robust flexibility across high-dimensional geometric spaces.")
+
 # ---------------- Train model ----------------
 if model_type == "RBF SVM":
-    model = SVC(
-        kernel="rbf",
-        C=50,
-        gamma=0.01
-    )
+    model = SVC(kernel="rbf", C=50, gamma=0.01)
 else:
-    model = SVC(
-        kernel="poly",
-        degree=4,     # higher degree captures curves better
-        C=50,
-        gamma=0.01,
-        coef0=1
-    )
+    model = SVC(kernel="poly", degree=4, C=50, gamma=0.01, coef0=1)
 
 model.fit(X_train, y_train)
 
@@ -56,10 +101,13 @@ model.fit(X_train, y_train)
 accuracy = model.score(X_test, y_test)
 
 # ---------------- Image upload ----------------
+st.markdown('<div class="glass-panel">', unsafe_allow_html=True)
+st.markdown("### 📤 Image Upload Sequence")
 uploaded_file = st.file_uploader(
-    "Upload a digit image",
+    "Import scanned numerical digit matrices (PNG/JPG)",
     type=["png", "jpg", "jpeg"]
 )
+st.markdown('</div>', unsafe_allow_html=True)
 
 if uploaded_file is not None:
     # Load image
@@ -71,7 +119,7 @@ if uploaded_file is not None:
     # Resize gently
     image = image.resize((8, 8), Image.BILINEAR)
 
-    st.image(image, caption="Processed Image (8×8)", width=200)
+    st.image(image, caption="Compressed Processing Matrix (8×8 resolution)", width=200)
 
     # Convert to array
     image_array = np.array(image).astype(np.float32)
@@ -89,14 +137,11 @@ if uploaded_file is not None:
     prediction = model.predict(image_array)[0]
 
     # Output
-    st.subheader("Prediction Result")
-    st.success(f"Predicted Digit: **{prediction}**")
-
-    st.subheader("Model Performance")
-    st.info(f"Model Used: **{model_type}**")
-    st.info(f"Accuracy on Test Data: **{accuracy:.4f}**")
-
-    st.warning(
-        "⚠️ Note: This model uses 8×8 images. "
-        "Complex digits (like 2, 5, 8) may still be confused."
-    )
+    st.markdown(f"""
+        <div class="result-card-success">
+            <div class="metric-text">🧩 Statistical Classification: <b>{prediction}</b></div>
+            <p style="color: #cbd5e1; margin-top: 5px;">Model successfully mapped input vector space. (Kernel: {model_type}, Precision: {accuracy:.4f})</p>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    st.caption("⚠️ Note: Geometric deformations or massive visual noise in raw uploads may result in probabilistic edge-case failures.")
