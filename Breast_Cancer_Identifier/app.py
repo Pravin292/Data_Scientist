@@ -37,10 +37,16 @@ h1, h2, h3 { color: #38bdf8 !important; font-weight: 700; }
 # ----------------------------
 # Load Modalities
 # ----------------------------
-model, features_list, metrics = load_model_and_metrics()
+try:
+    model, features_list, metrics = load_model_and_metrics()
+except Exception as e:
+    st.error(f"Diagnostic Boot Error: {e}")
+    import traceback
+    st.code(traceback.format_exc())
+    st.stop()
 
 if model is None:
-    st.error("Model artifacts missing. Execute `python model_training.py` within the local component directory first.")
+    st.warning("🩺 Biometric models not found. Run `python model_training.py` to generate diagnostic weights.")
     st.stop()
 
 
