@@ -5,8 +5,6 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
-from utils import load_model_and_metrics, generate_feature_importance_plot
-
 # ----------------------------
 # Page Config
 # ----------------------------
@@ -15,6 +13,13 @@ st.set_page_config(
     page_icon="🩺",
     layout="wide"
 )
+
+# ---------------- Fail-Safe Imports ----------------
+try:
+    from utils import load_model_and_metrics, generate_feature_importance_plot
+except Exception as e:
+    st.error(f"⚠️ Diagnostic Module Error: {e}")
+    st.stop()
 
 # ----------------------------
 # Custom Styling "Midnight Glass"
